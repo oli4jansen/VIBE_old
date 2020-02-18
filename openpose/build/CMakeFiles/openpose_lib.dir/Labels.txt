@@ -1,0 +1,13 @@
+# Target labels
+ openpose_lib
+# Source files and their labels
+/content/openpose/build/CMakeFiles/openpose_lib
+/content/openpose/build/CMakeFiles/openpose_lib.rule
+/content/openpose/build/CMakeFiles/openpose_lib-complete.rule
+/content/openpose/build/caffe/src/openpose_lib-stamp/openpose_lib-install.rule
+/content/openpose/build/caffe/src/openpose_lib-stamp/openpose_lib-mkdir.rule
+/content/openpose/build/caffe/src/openpose_lib-stamp/openpose_lib-download.rule
+/content/openpose/build/caffe/src/openpose_lib-stamp/openpose_lib-update.rule
+/content/openpose/build/caffe/src/openpose_lib-stamp/openpose_lib-patch.rule
+/content/openpose/build/caffe/src/openpose_lib-stamp/openpose_lib-configure.rule
+/content/openpose/build/caffe/src/openpose_lib-stamp/openpose_lib-build.rule

@@ -1,0 +1,59 @@
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /content/openpose/build/caffe/src/openpose_lib-build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_080c8/fast"
+make[3]: Entering directory '/content/openpose/build/caffe/src/openpose_lib-build/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTC_080c8.dir/build.make CMakeFiles/cmTC_080c8.dir/build
+make[4]: Entering directory '/content/openpose/build/caffe/src/openpose_lib-build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_080c8.dir/CheckSymbolExists.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_080c8.dir/CheckSymbolExists.c.o   -c /content/openpose/build/caffe/src/openpose_lib-build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_080c8
+/usr/local/bin/cmake -E cmake_link_script CMakeFiles/cmTC_080c8.dir/link.txt --verbose=1
+/usr/bin/cc      -rdynamic CMakeFiles/cmTC_080c8.dir/CheckSymbolExists.c.o  -o cmTC_080c8 
+CMakeFiles/cmTC_080c8.dir/CheckSymbolExists.c.o: In function `main':
+CheckSymbolExists.c:(.text+0x1b): undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_080c8.dir/build.make:86: recipe for target 'cmTC_080c8' failed
+make[4]: *** [cmTC_080c8] Error 1
+make[4]: Leaving directory '/content/openpose/build/caffe/src/openpose_lib-build/CMakeFiles/CMakeTmp'
+Makefile:121: recipe for target 'cmTC_080c8/fast' failed
+make[3]: *** [cmTC_080c8/fast] Error 2
+make[3]: Leaving directory '/content/openpose/build/caffe/src/openpose_lib-build/CMakeFiles/CMakeTmp'
+
+File /content/openpose/build/caffe/src/openpose_lib-build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /content/openpose/build/caffe/src/openpose_lib-build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_aa46d/fast"
+make[3]: Entering directory '/content/openpose/build/caffe/src/openpose_lib-build/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTC_aa46d.dir/build.make CMakeFiles/cmTC_aa46d.dir/build
+make[4]: Entering directory '/content/openpose/build/caffe/src/openpose_lib-build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_aa46d.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_aa46d.dir/CheckFunctionExists.c.o   -c /usr/local/share/cmake-3.13/Modules/CheckFunctionExists.c
+Linking C executable cmTC_aa46d
+/usr/local/bin/cmake -E cmake_link_script CMakeFiles/cmTC_aa46d.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_aa46d.dir/CheckFunctionExists.c.o  -o cmTC_aa46d -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_aa46d.dir/build.make:86: recipe for target 'cmTC_aa46d' failed
+make[4]: *** [cmTC_aa46d] Error 1
+make[4]: Leaving directory '/content/openpose/build/caffe/src/openpose_lib-build/CMakeFiles/CMakeTmp'
+Makefile:121: recipe for target 'cmTC_aa46d/fast' failed
+make[3]: *** [cmTC_aa46d/fast] Error 2
+make[3]: Leaving directory '/content/openpose/build/caffe/src/openpose_lib-build/CMakeFiles/CMakeTmp'
+
+

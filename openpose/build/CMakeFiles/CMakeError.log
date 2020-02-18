@@ -1,0 +1,55 @@
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /content/openpose/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_f7ddc/fast"
+/usr/bin/make -f CMakeFiles/cmTC_f7ddc.dir/build.make CMakeFiles/cmTC_f7ddc.dir/build
+make[1]: Entering directory '/content/openpose/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_f7ddc.dir/CheckSymbolExists.c.o
+/usr/bin/cc   -fPIC    -o CMakeFiles/cmTC_f7ddc.dir/CheckSymbolExists.c.o   -c /content/openpose/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_f7ddc
+/usr/local/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f7ddc.dir/link.txt --verbose=1
+/usr/bin/cc -fPIC     -rdynamic CMakeFiles/cmTC_f7ddc.dir/CheckSymbolExists.c.o  -o cmTC_f7ddc 
+CMakeFiles/cmTC_f7ddc.dir/CheckSymbolExists.c.o: In function `main':
+CheckSymbolExists.c:(.text+0x1b): undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_f7ddc.dir/build.make:86: recipe for target 'cmTC_f7ddc' failed
+make[1]: *** [cmTC_f7ddc] Error 1
+make[1]: Leaving directory '/content/openpose/build/CMakeFiles/CMakeTmp'
+Makefile:121: recipe for target 'cmTC_f7ddc/fast' failed
+make: *** [cmTC_f7ddc/fast] Error 2
+
+File /content/openpose/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /content/openpose/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_e709b/fast"
+/usr/bin/make -f CMakeFiles/cmTC_e709b.dir/build.make CMakeFiles/cmTC_e709b.dir/build
+make[1]: Entering directory '/content/openpose/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_e709b.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_e709b.dir/CheckFunctionExists.c.o   -c /usr/local/share/cmake-3.13/Modules/CheckFunctionExists.c
+Linking C executable cmTC_e709b
+/usr/local/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e709b.dir/link.txt --verbose=1
+/usr/bin/cc -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_e709b.dir/CheckFunctionExists.c.o  -o cmTC_e709b -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_e709b.dir/build.make:86: recipe for target 'cmTC_e709b' failed
+make[1]: *** [cmTC_e709b] Error 1
+make[1]: Leaving directory '/content/openpose/build/CMakeFiles/CMakeTmp'
+Makefile:121: recipe for target 'cmTC_e709b/fast' failed
+make: *** [cmTC_e709b/fast] Error 2
+
+
