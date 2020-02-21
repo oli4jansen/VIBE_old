@@ -80,10 +80,6 @@ def read_posetrack_keypoints(output_folder, smoothen=False, smoothen_method='med
         else:
             people[k]['joints2d'] = people[k]['joints2d'].reshape((people[k]['joints2d'].shape[0], -1, 3))
 
-
-        # people[k]['joints2d'] = people[k]['joints2d'].reshape(
-        #     (len(people[k]['joints2d']), -1, 3))
-
         people[k]['frames'] = np.array(people[k]['frames'])
 
     return people
@@ -119,33 +115,25 @@ def smoothen_joints2d(joints, method):
         # Concat the coords with the confs
         return np.concatenate([coords_smooth, confs], axis = -1)
     else:
+
         [x, y] = np.split(coords, [1], axis=2)
 
-        amount = 0.25
+        # amount = 0.25
 
-        old_shape_x = x.shape
-        old_shape_y = y.shape
+        assert(x.shape == (num_frames, num_joints, 1))
+        assert(y.shape == (num_frames, num_joints, 1))
 
         x = np.reshape(x, (-1))
         y = np.reshape(y, (-1))
+        c = np.reshape(confs, (-1))
 
+        x = c * x + (1 - c) * signal.medfilt(x, [3])
+        y = c * y + (1 - c) * signal.medfilt(y, [3])
 
-        x = amount * signal.medfilt(x, [3]) + (1 - amount) * x
-        y = amount * signal.medfilt(y, [3]) + (1 - amount) * y
-
-        x = np.reshape(x, old_shape_x)
-        y = np.reshape(y, old_shape_y)
+        x = np.reshape(x, (num_frames, num_joints, 1))
+        y = np.reshape(y, (num_frames, num_joints, 1))
 
         coords_smooth = np.concatenate([x, y], axis = -1)
-
-
-        # # Split x and y
-        # [x, y] = list(map(lambda x: list(map(lambda xx: xx[0], x)), np.split(coords, [1], axis=1)))
-        # # Apply median filter
-        # x = signal.medfilt(x, [3])
-        # y = signal.medfilt(y, [3])
-
-        # coords_smooth = np.concatenate([np.reshape(x, (len(x), 1)), np.reshape(y, (len(y), 1))], axis = -1)
 
         assert(coords_smooth.shape == coords.shape)
 
