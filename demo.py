@@ -79,7 +79,7 @@ def run_vibe(video_file, args):
         video_file = os.path.join(os.getcwd(), video_file)
 
     tracking_results = run_posetracker(
-        video_file, staf_folder=args.staf_dir, display=args.display)
+        video_file, staf_folder=args.staf_dir, display=args.display, smoothen=args.smoothen, smoothen_method=args.smoothen_method)
 
     # remove tracklets if num_frames is less than MIN_NUM_FRAMES
     for person_id in list(tracking_results.keys()):
@@ -334,6 +334,13 @@ if __name__ == '__main__':
 
     parser.add_argument('--wireframe', action='store_true',
                         help='render all meshes as wireframes.')
+
+    parser.add_argument('--smoothen', type=bool, default=False,
+                        help='Smoothen the 2D keypoints')
+
+    parser.add_argument('--smoothen_method', type=str, default='median',
+                        help='smoothen method to use. can be median or savgol')
+
 
     args = parser.parse_args()
 

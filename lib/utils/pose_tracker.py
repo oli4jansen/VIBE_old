@@ -132,7 +132,7 @@ def smoothen_joints2d(joints, method):
         return np.concatenate([coords_smooth, confs], axis = -1)
 
 
-def run_posetracker(video_file, staf_folder, posetrack_output_folder='/tmp', display=False):
+def run_posetracker(video_file, staf_folder, posetrack_output_folder='/tmp', display=False, smoothen=False, smoothen_method='median'):
     posetrack_output_folder = os.path.join(
         posetrack_output_folder,
         f'{os.path.basename(video_file)}_posetrack'
@@ -146,7 +146,7 @@ def run_posetracker(video_file, staf_folder, posetrack_output_folder='/tmp', dis
         staf_folder=staf_folder
     )
 
-    people_dict = read_posetrack_keypoints(posetrack_output_folder)
+    people_dict = read_posetrack_keypoints(posetrack_output_folder, smoothen, smoothen_method)
 
     shutil.rmtree(posetrack_output_folder)
 
