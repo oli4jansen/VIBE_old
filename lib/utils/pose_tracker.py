@@ -27,7 +27,7 @@ def run_openpose(
         video_file,
         output_folder,
         staf_folder,
-        vis=False,
+        vis=False
 ):
     pwd = os.getcwd()
 
@@ -50,7 +50,7 @@ def run_openpose(
     os.chdir(pwd)
 
 
-def read_posetrack_keypoints(output_folder):
+def read_posetrack_keypoints(output_folder, smoothen=False, smoothen_method='median'):
 
     people = dict()
 
@@ -75,7 +75,11 @@ def read_posetrack_keypoints(output_folder):
     for k in people.keys():
         # Convert to numpy array
         people[k]['joints2d'] = np.array(people[k]['joints2d'])
-        people[k]['joints2d'] = smoothen_joints2d(people[k]['joints2d'])
+        if smoothen:
+            people[k]['joints2d'] = smoothen_joints2d(people[k]['joints2d'], smoothen_method)
+        else:
+            people[k]['joints2d'] = people[k]['joints2d'].reshape((people[k]['joints2d'].shape[0], -1, 3))
+
 
         # people[k]['joints2d'] = people[k]['joints2d'].reshape(
         #     (len(people[k]['joints2d']), -1, 3))
@@ -85,7 +89,7 @@ def read_posetrack_keypoints(output_folder):
     return people
 
 
-def smoothen_joints2d(joints):
+def smoothen_joints2d(joints, method):
     num_frames = joints.shape[0]
 
     # Reshape into 3D array with frames -> joints -> x, y, c
@@ -100,31 +104,32 @@ def smoothen_joints2d(joints):
     assert(coords.shape == (num_frames, num_joints, 2))
     assert(confs.shape == (num_frames, num_joints, 1))
 
-    # Window size is capped by number of frames
-    window_size = 7
-    if window_size > num_frames:
-        window_size = num_frames if num_frames % 2 is 1 else num_frames - 1
+    if method is 'savgol':
+        # Window size is capped by number of frames
+        window_size = 7
+        if window_size > num_frames:
+            window_size = num_frames if num_frames % 2 is 1 else num_frames - 1
 
-    # Polyorder must be less than window_size
-    polyorder = min(window_size - 1, 5)
+        # Polyorder must be less than window_size
+        polyorder = min(window_size - 1, 5)
 
-    # Smooth the coordinates
-    coords_smooth = signal.savgol_filter(coords, window_size, polyorder, axis = 0)
+        # Smooth the coordinates
+        coords_smooth = signal.savgol_filter(coords, window_size, polyorder, axis = 0)
 
-    # Concat the coords with the confs
-    return np.concatenate([coords_smooth, confs], axis = -1)
+        # Concat the coords with the confs
+        return np.concatenate([coords_smooth, confs], axis = -1)
+    else:
+        # Split x and y
+        [x, y] = list(map(lambda x: list(map(lambda xx: xx[0], x)), np.split(coords, [1], axis=1)))
+        # Apply median filter
+        x = signal.medfilt(x, [3])
+        y = signal.medfilt(y, [3])
 
+        coords_smooth = np.concatenate([np.reshape(x, (len(x), 1)), np.reshape(y, (len(y), 1))], axis = -1)
 
-    # # smoothen here
-    # num_frames = joints.shape[0]
-    # num_keypoints = joints.shape[-1]
+        assert(coords_smooth.shape == coords.shape)
 
-    # window_size = num_frames if num_frames % 2 is 1 else num_frames - 1
-    # polyorder = window_size - 1
-
-    # # TODO: can we ignore confidence values while smoothing? [x1, y1, c1, x2, y2, c2, ...]
-
-    # return signal.savgol_filter(joints, window_size, polyorder, axis=0)
+        return np.concatenate([coords_smooth, confs], axis = -1)
 
 
 def run_posetracker(video_file, staf_folder, posetrack_output_folder='/tmp', display=False):
