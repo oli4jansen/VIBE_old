@@ -119,13 +119,33 @@ def smoothen_joints2d(joints, method):
         # Concat the coords with the confs
         return np.concatenate([coords_smooth, confs], axis = -1)
     else:
-        # Split x and y
-        [x, y] = list(map(lambda x: list(map(lambda xx: xx[0], x)), np.split(coords, [1], axis=1)))
-        # Apply median filter
-        x = signal.medfilt(x, [3])
-        y = signal.medfilt(y, [3])
+        [x, y] = np.split(coords, [1], axis=2)
 
-        coords_smooth = np.concatenate([np.reshape(x, (len(x), 1)), np.reshape(y, (len(y), 1))], axis = -1)
+        amount = 0.25
+
+        old_shape_x = x.shape
+        old_shape_y = y.shape
+
+        x = np.reshape(x, (-1))
+        y = np.reshape(y, (-1))
+
+
+        x = amount * signal.medfilt(x, [3]) + (1 - amount) * x
+        y = amount * signal.medfilt(y, [3]) + (1 - amount) * y
+
+        x = np.reshape(x, old_shape_x)
+        y = np.reshape(y, old_shape_y)
+
+        coords_smooth = np.concatenate([x, y], axis = -1)
+
+
+        # # Split x and y
+        # [x, y] = list(map(lambda x: list(map(lambda xx: xx[0], x)), np.split(coords, [1], axis=1)))
+        # # Apply median filter
+        # x = signal.medfilt(x, [3])
+        # y = signal.medfilt(y, [3])
+
+        # coords_smooth = np.concatenate([np.reshape(x, (len(x), 1)), np.reshape(y, (len(y), 1))], axis = -1)
 
         assert(coords_smooth.shape == coords.shape)
 
