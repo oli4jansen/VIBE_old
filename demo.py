@@ -31,7 +31,7 @@ from lib.data_utils.kp_utils import convert_kps
 from lib.dataset.inference import Inference
 from lib.models.vibe import VIBE_Demo
 from lib.utils.demo_utils import (convert_crop_cam_to_orig_img, download_ckpt,
-                                  download_youtube_clip, images_to_video,
+                                  images_to_video,
                                   prepare_rendering_results, smplify_runner,
                                   video_to_images)
 from lib.utils.pose_tracker import run_posetracker

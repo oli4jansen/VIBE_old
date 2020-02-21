@@ -22,7 +22,6 @@ import torch
 import subprocess
 import numpy as np
 import os.path as osp
-from pytube import YouTube
 from collections import OrderedDict
 
 from lib.utils.smooth_bbox import get_smooth_bbox_params, get_all_bbox_params
@@ -83,9 +82,6 @@ def preprocess_video(video, joints2d, bboxes, frames, scale=1.0, crop_size=224):
 
     return temp_video, norm_video, bboxes, joints2d, frames
 
-
-def download_youtube_clip(url, download_folder):
-    return YouTube(url).streams.first().download(output_path=download_folder)
 
 
 def smplify_runner(
