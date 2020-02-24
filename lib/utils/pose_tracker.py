@@ -118,7 +118,7 @@ def smoothen_joints2d(joints, method):
 
         [x, y] = np.split(coords, [1], axis=2)
 
-        minimum_smoothing = 0.15
+        minimum_smoothing = 0.05
 
         assert(x.shape == (num_frames, num_joints, 1))
         assert(y.shape == (num_frames, num_joints, 1))
@@ -126,7 +126,7 @@ def smoothen_joints2d(joints, method):
         x = np.reshape(x, (-1))
         y = np.reshape(y, (-1))
 
-        flat_confs = np.reshape(confs, (-1))
+        flat_confs = np.reshape(confs, (-1)) * 0.5 + 0.5
         c = (1 - minimum_smoothing) * flat_confs
 
         x = c * x + (1 - c) * signal.medfilt(x, [3])
